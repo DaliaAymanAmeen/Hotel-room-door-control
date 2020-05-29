@@ -2,7 +2,8 @@
 #include "D:/DALIAA/Keil/EE319Kware/inc/tm4c123gh6pm.h"
 #include "UART.h"
 
-int options = 3; //check out, locked		
+char options = 0; 
+char room_num = 1;
 char right_password[4]="0000"; 
 char password[4]="1111";
 
@@ -30,12 +31,13 @@ char UART_Read (void)
 
 void UART_write (char data)
 {
-		while((UART0_FR_R & 0x0020) != 0){}; //if the bu //check TXFF	
+		while((UART0_FR_R & 0x0020) != 0){}; //if the buffer not full , you can write data //check TXFF	
 		UART0_DR_R = data; //set the data
 }
-
+ 
 		
-void PortF_init(void){	
+void PortF_init(void)
+{	
 	SYSCTL_RCGCGPIO_R |= 0x00000020; //portF activated
 	while( (SYSCTL_RCGCGPIO_R & 0x20)==0 ) {};   
 	GPIO_PORTF_DIR_R = 0X0E ; //output pf1,pf2,pf3
@@ -56,17 +58,16 @@ void solenoid_locked (void)
 		GPIO_PORTF_DATA_R=0x00; //led off
 }	
 	
-void check_options (void)	//el mfrod el option hena yegi mn el uart
+void check_options (void)	
 {
 	 if (options == 0) //check in 
-	 {		
-			int i;
-		 	for ( i = 0 ; i < 4 ; i++)
-			{
-					right_password[i]='1'; //elmfrod enu haykhod da mn el uart //set password
-			}
-				
-	 }
+		 {		
+			 int i;
+			 for ( i = 0 ; i < 4 ; i++)
+			 {
+				 right_password[i] = UART_Read ();  //set password
+			 }
+		 }
 	 
 	 	else if (options == 1) //check out
 	 {	
@@ -79,22 +80,25 @@ void check_options (void)	//el mfrod el option hena yegi mn el uart
 				solenoid_unlocked ();  
 	 }
 	 
-	  else if (options == 3) //enter the room
-	 {	
-			if(check_password("1111")) ///////////el password el mfrod yegeli mn el uart //momkn  akhod el data el awel a7otaha
-			{																		//f array password w b3den ab3tu l ckek password
-					solenoid_unlocked ();  
+	  else if (options == 3) //enter the room and check the password
+			{	
+				
+			 int i;
+			 for ( i = 0 ; i < 4 ; i++)
+			 {
+				 password[i] = UART_Read (); //enter password
+			 }
+			 
+				if(check_password(password)) //check the entered password
+					{																		
+						solenoid_unlocked ();  
+					}
+					else
+						{
+							solenoid_locked ();	
+						}
 			}
-			
-				else
-				{
-						solenoid_locked ();	
-				}
-	 }
-	 
- }
-
- 
+}
 
 
 _Bool check_password(char password[]) 
@@ -107,6 +111,26 @@ _Bool check_password(char password[])
 		
 		return 1;
 }	
-		 
 
+
+
+void PortC_init(void)
+{	
+	SYSCTL_RCGCGPIO_R |= 0x00000003; //portC activated
+	while( (SYSCTL_RCGCGPIO_R & 0x03)==0 ) {};   
+	GPIO_PORTC_DIR_R = 0X00; //input 
+	GPIO_PORTC_DEN_R = 0XFF;  //enable digital
+	GPIO_PORTC_DATA_R=0x00; 
+		
+}
+
+void PortD_init(void)
+{	
+	SYSCTL_RCGCGPIO_R |= 0x00000010; //portD activated
+	while( (SYSCTL_RCGCGPIO_R & 0x10)==0 ) {};   
+	GPIO_PORTF_DIR_R = 0X00 ; //input 
+	GPIO_PORTF_DEN_R = 0XFF;  //enable digital
+	GPIO_PORTF_DATA_R=0x00; 
+		
+}
 //el password w rakam el room w el option yegoli mn el uart

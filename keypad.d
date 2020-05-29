@@ -1,0 +1,12 @@
+.\keypad.o: keypad.c
+.\keypad.o: D:\DALIAA\1DALIA\keil\ARM\ARMCC\bin\..\include\stdint.h
+.\keypad.o: Keypad.h
+.\keypad.o: D:\DALIAA\1DALIA\keil\ARM\Inc\TI\TM4C123\tm4c123gh6pm.h
+.\keypad.o: D:\DALIAA\1DALIA\keil\ARM\CMSIS\Include\core_cm4.h
+.\keypad.o: D:\DALIAA\1DALIA\keil\ARM\CMSIS\Include\core_cmInstr.h
+.\keypad.o: D:\DALIAA\1DALIA\keil\ARM\CMSIS\Include\core_cmFunc.h
+.\keypad.o: D:\DALIAA\1DALIA\keil\ARM\CMSIS\Include\core_cm4_simd.h
+.\keypad.o: D:\DALIAA\1DALIA\keil\ARM\Inc\TI\TM4C123\system_TM4C123.h
+.\keypad.o: D:/DALIAA/1DALIA/Academic_Projects/Materials/std_types.h
+.\keypad.o: UART.h
+.\keypad.o: D:/DALIAA/Keil/EE319Kware/inc/tm4c123gh6pm.h

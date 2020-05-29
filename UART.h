@@ -9,3 +9,5 @@ void solenoid_unlocked (void);
 void solenoid_locked (void);
 void check_options (void);
 _Bool check_password(char password[]);
+void PortD_init(void);
+void PortC_init(void);
