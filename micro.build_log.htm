@@ -8,17 +8,19 @@ Project File Date:  05/28/2020
 
 <h2>Output:</h2>
 Build target 'Target 1'
-compiling main.c...
-UART.h(13): warning:  #1-D: last line of file ends without a newline
-  void PortC_init(void);
-main.c: 1 warning, 0 errors
 compiling UART.c...
 UART.h(13): warning:  #1-D: last line of file ends without a newline
-  void PortC_init(void);
-UART.c: 1 warning, 0 errors
+  void PortD_init(void);
+UART.c(136): warning:  #1-D: last line of file ends without a newline
+  }
+UART.c: 2 warnings, 0 errors
+linking...
+Program Size: Code=1112 RO-data=652 RW-data=12 ZI-data=612  
+".\micro.axf" - 0 Error(s), 2 Warning(s).
+ART.c: 2 warnings, 0 errors
 compiling keypad.c...
 UART.h(13): warning:  #1-D: last line of file ends without a newline
-  void PortC_init(void);
+  void PortD_init(void);
 Keypad.h(20): warning:  #1-D: last line of file ends without a newline
   #endif /*KEYPAD_H_*/
 keypad.c(58): warning:  #111-D: statement is unreachable
@@ -55,9 +57,5 @@ keypad.c(103): warning:  #111-D: statement is unreachable
                                   break;
 keypad.c: 18 warnings, 0 errors
 linking...
-Program Size: Code=1108 RO-data=652 RW-data=12 ZI-data=612  
-".\micro.axf" - 0 Error(s), 20 Warning(s).
-                       break;
-keypad.c: 17 warnings, 4 errors
-".\micro.axf" - 4 Error(s), 17 Warning(s).
-Target not created
+Program Size: Code=1088 RO-data=652 RW-data=12 ZI-data=612  
+".\micro.axf" - 0 Error(s), 21 Warning(s).

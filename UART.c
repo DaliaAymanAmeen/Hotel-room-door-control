@@ -2,14 +2,15 @@
 #include "D:/DALIAA/Keil/EE319Kware/inc/tm4c123gh6pm.h"
 #include "UART.h"
 
-char options = 0; 
-char room_num = 1;
+char options = '0'; 
+char room_num = '1';
 char right_password[4]="0000"; 
 char password[4]="1111";
 
 void UART_init (void)
 {
 		SYSCTL_RCGCUART_R |= 0x01; //enable clk to UART
+		//while( (SYSCTL_RCGCGPIO_R & 0x01)==0 ) {};   
 		SYSCTL_RCGCGPIO_R |= 0x01; //enable clk to portA
 		UART0_CTL_R &= (~0x01); //disable UART
 		UART0_IBRD_R = 520; //baud rate
@@ -50,7 +51,7 @@ void PortF_init(void)
 
 void solenoid_unlocked (void)  
 {
-		GPIO_PORTF_DATA_R=0x04;  //led on
+		GPIO_PORTF_DATA_R=0x08;  //led on
 }
 	
 void solenoid_locked (void) 
@@ -60,7 +61,7 @@ void solenoid_locked (void)
 	
 void check_options (void)	
 {
-	 if (options == 0) //check in 
+	 if (options == '0') //check in 
 		 {		
 			 int i;
 			 for ( i = 0 ; i < 4 ; i++)
@@ -69,18 +70,18 @@ void check_options (void)
 			 }
 		 }
 	 
-	 	else if (options == 1) //check out
+	 	else if (options == '1') //check out
 	 {	
 			 solenoid_locked ();	
 	 }
 	 
 	 
-	  else if (options == 2) //room service
+	  else if (options == '2') //room service
 	 {	
 				solenoid_unlocked ();  
 	 }
 	 
-	  else if (options == 3) //enter the room and check the password
+	  else if (options == '3') //enter the room and check the password
 			{	
 				
 			 int i;
@@ -116,8 +117,8 @@ _Bool check_password(char password[])
 
 void PortC_init(void)
 {	
-	SYSCTL_RCGCGPIO_R |= 0x00000003; //portC activated
-	while( (SYSCTL_RCGCGPIO_R & 0x03)==0 ) {};   
+	SYSCTL_RCGCGPIO_R |= 0x00000004; //portC activated
+	while( (SYSCTL_RCGCGPIO_R & 0x04)==0 ) {};   
 	GPIO_PORTC_DIR_R = 0X00; //input 
 	GPIO_PORTC_DEN_R = 0XFF;  //enable digital
 	GPIO_PORTC_DATA_R=0x00; 
@@ -126,11 +127,10 @@ void PortC_init(void)
 
 void PortD_init(void)
 {	
-	SYSCTL_RCGCGPIO_R |= 0x00000010; //portD activated
-	while( (SYSCTL_RCGCGPIO_R & 0x10)==0 ) {};   
-	GPIO_PORTF_DIR_R = 0X00 ; //input 
-	GPIO_PORTF_DEN_R = 0XFF;  //enable digital
-	GPIO_PORTF_DATA_R=0x00; 
+	SYSCTL_RCGCGPIO_R |= 0x00000008; //portD activated
+	while( (SYSCTL_RCGCGPIO_R & 0x08)==0 ) {}; 
+	GPIO_PORTD_DIR_R = 0X00 ; //input 
+	GPIO_PORTD_DEN_R = 0XFF;  //enable digital
+	GPIO_PORTD_DATA_R=0x00; 
 		
 }
-//el password w rakam el room w el option yegoli mn el uart
