@@ -1,6 +1,7 @@
 #include "stdint.h" 
 #include "D:/DALIAA/Keil/EE319Kware/inc/tm4c123gh6pm.h"
 #include "UART.h"
+#include "Keypad.h"
 
 char options = '0'; 
 char room_num = '1';
@@ -55,7 +56,7 @@ void setup (void)
 	int i;
 	for (i=0 ; i<5 ; i++)
 	{
-		setup_rooms[i] = UART_Read();;
+		setup_rooms[i] = UART_Read();
 	}
 	//assumption that first enterd room number is the room which is connected to the keypad, UART, and solenoid
 }
@@ -75,12 +76,12 @@ void check_options (void)
 {
 	 if (options == '0') //check in 
 		 {		
-			 flag_occupied = 1;
 			 int i;
 			 for ( i = 0 ; i < 4 ; i++)
 			 {
 				 right_password[i] = UART_Read ();  //set password
 			 }
+			 flag_occupied = 1;
 		 }
 	 
 	 	else if (options == '1') //check out
@@ -97,23 +98,29 @@ void check_options (void)
 	 
 	 
 			// el mfrod ashel el option da w akhali el password ytakhed mn el keypad + y check el awel mn flag_occ
-	  else if (options == '3') //enter the room and check the password
+	  else  //enter the room and check the password
 			{	
-				
-			 int i;
-			 for ( i = 0 ; i < 4 ; i++)
-			 {
-				 password[i] = UART_Read (); //enter password
-			 }
-			 
-				if(check_password(password)) //check the entered password
-					{																		
-						solenoid_unlocked ();  
+				if (flag_occupied == 1) //already the room is checked in
+				{
+					 int i;
+					 for ( i = 0 ; i < 4 ; i++)
+					 {
+						 password[i] = (char)KeyPad_getPressedKey(); //get password from keypad
+					 }
+					 
+						if(check_password(password)) //check the entered password
+							{																		
+								solenoid_unlocked ();  
+							}
+							else
+								{
+									solenoid_locked ();	
+								}
 					}
-					else
-						{
-							solenoid_locked ();	
-						}
+					else //the room is not checked in
+					{
+						solenoid_locked ();
+					}
 			}
 }
 

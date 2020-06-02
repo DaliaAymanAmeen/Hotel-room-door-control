@@ -20,11 +20,12 @@ int main ()
 		while(1)
 		{
 				room_num =  UART_Read ();
-				//assumption that first enterd room number is the room which is connected to the keypad, UART, and solenoid
-				if (room_num == setup_rooms[0]) 
+				
+				if (room_num == setup_rooms[0]) //assumption that first enterd room number in the array is the room which is connected to the keypad, UART, and solenoid
 				{
 					options = UART_Read ();
-					check_options ();	
+					check_options ();
+					
 					
 				}					
 		}
