@@ -11,3 +11,4 @@ void check_options (void);
 _Bool check_password(char password[]);
 void PortC_init(void);
 void PortD_init(void);
+void setup (void);

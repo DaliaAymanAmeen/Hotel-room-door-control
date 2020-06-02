@@ -16,5 +16,5 @@
  
 
 /***  functions proto types *///
-uint16 Keypad_getpressed(void);
+uint16 KeyPad_getPressedKey(void);
 #endif /*KEYPAD_H_*/

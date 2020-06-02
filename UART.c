@@ -6,6 +6,8 @@ char options = '0';
 char room_num = '1';
 char right_password[4]="0000"; 
 char password[4]="1111";
+char setup_rooms[4]="0000";
+int flag_occupied = 0; //check this flag before case entering the room (check if the room is checked in or not)
 
 void UART_init (void)
 {
@@ -48,6 +50,16 @@ void PortF_init(void)
 		
 }
 
+void setup (void)
+{
+	int i;
+	for (i=0 ; i<5 ; i++)
+	{
+		setup_rooms[i] = UART_Read();;
+	}
+	//assumption that first enterd room number is the room which is connected to the keypad, UART, and solenoid
+}
+	
 
 void solenoid_unlocked (void)  
 {
@@ -63,6 +75,7 @@ void check_options (void)
 {
 	 if (options == '0') //check in 
 		 {		
+			 flag_occupied = 1;
 			 int i;
 			 for ( i = 0 ; i < 4 ; i++)
 			 {
@@ -72,6 +85,7 @@ void check_options (void)
 	 
 	 	else if (options == '1') //check out
 	 {	
+			 flag_occupied = 0 ;
 			 solenoid_locked ();	
 	 }
 	 
@@ -81,6 +95,8 @@ void check_options (void)
 				solenoid_unlocked ();  
 	 }
 	 
+	 
+			// el mfrod ashel el option da w akhali el password ytakhed mn el keypad + y check el awel mn flag_occ
 	  else if (options == '3') //enter the room and check the password
 			{	
 				
@@ -112,7 +128,6 @@ _Bool check_password(char password[])
 		
 		return 1;
 }	
-
 
 
 void PortC_init(void)
