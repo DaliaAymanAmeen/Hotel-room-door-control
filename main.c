@@ -15,6 +15,7 @@ int main ()
 		PortF_init();	
 		PortC_init();
 		PortD_init();
+		UART_init ();
 		setup ();
 	
 		while(1)
